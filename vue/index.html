@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>张顺Vue(一)</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	    <!--<meta name="apple-mobile-web-app-capable" content="yes">
+	    <meta name="apple-mobile-web-app-status-bar-style" content="black">-->
+	    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+	    <script src="js/jquery-3.1.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<!--contextmenu  右键-->
+	</head>
+	<body>
+		<div class="container" id="box">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label for="username" class="col-md-2 col-xs-3 control-label">姓名：</label>
+					<div class="col-md-10 col-xs-9">
+						<input type="text" id="username" v-model="username" class="form-control" placeholder="姓名"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="passward" class="col-md-2 col-xs-3 control-label">密码：</label>
+					<div class="col-md-10 col-xs-9">
+						<input type="text" id="passward" v-model="passward" class="form-control" placeholder="密码"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-offset-2 col-md-10 col-xs-offset-3 col-xs-9">
+						<!--<button class="btn btn-primary" v-on:click="add()">提交</button>-->
+						<input type="button" value="添加" class="btn btn-primary" v-on:click="add()">
+					</div>
+				</div>
+			</form>
+			<hr />
+			<table class="table table-hover table-bordered">
+				<caption class="h2 text-center text-info">用户信息表</caption>
+				<thead>
+					<tr class="text-danger bg-success">
+						<th class="text-center">序号</th>
+						<th class="text-center">姓名</th>
+						<th class="text-center">密码</th>
+						<th class="text-center">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center" v-for="v in myData">
+						<td class="col-md-4">{{$index+1}}</td>
+						<td>{{v.username}}</td>
+						<td>{{v.passward}}</td>
+						<td>
+							<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#shun" v-on:click="nowIndex=$index">删除</button>
+						</td>
+					</tr>
+					<tr v-show="myData.length!=0">
+						<td colspan="4" class="bg-warning text-right">
+							<button class="btn btn-sm bg-primary" v-on:click="nowIndex=-2" data-toggle="modal" data-target="#shun">删除全部</button>
+						</td>
+					</tr>
+					<tr v-show="myData.length==0">
+						<td colspan="4" class="text-center bg-info">
+							<button>暂无数据....</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<!--遮罩层-->
+			<div role="dialog" class="modal fade bs-example-modal-sm" id="shun">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button class="close" data-dismiss="modal">&times;</button>
+							<h4>确认删除吗？</h4>
+						</div>
+						<div class="modal-body text-right">
+							<button data-dismiss="modal" class="btn btn-danger" v-on:click="del(nowIndex)">确认</button>
+							<button data-dismiss="modal" class="btn btn-primary">取消</button>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+			new Vue({
+	            el:'#box',
+	            data:{
+	                myData:[],
+	                username:'',
+	                passward:'',
+	                nowIndex:100
+	            },
+	            methods:{
+	                add:function(){
+	                	if(this.username==""||this.passward==""){
+	                		alert("用户名和密码不能为空");
+	                	}else{
+	                		this.myData.push({
+		                        username:this.username,
+		                        passward:this.passward
+		                    });
+		                    this.username="",
+	                    	this.passward=""
+	                	};
+	                    
+	                },
+	                del:function(n){
+	                	if(n==-2){
+	                		this.myData=[];
+	                	}else{
+	                		this.myData.splice(n,1);
+	                	}
+	                }
+	            }
+	        });
+	</script>
+</html>

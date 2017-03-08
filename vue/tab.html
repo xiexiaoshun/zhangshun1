@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery-3.1.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-resource.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			img{
+				width: 100%;
+				height: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<div class="row">
+						<button class="col-md-4 col-sm-4 col-xs-4 text-center" @click="tab(tab01)" :style="two">友情</button>
+						<button class="col-md-4 col-sm-4 col-xs-4 text-center" @click="tab(tab02)" :style="two">早恋</button>
+						<button class="col-md-4 col-sm-4 col-xs-4 text-center" @click="tab(tab03)" :style="two">身材</button>
+					</div>							
+				</div>
+			</div>
+			<div class="box">
+				<template class="text-center" id="tab1"><div><img src="img/1.jpg"/></div></template>
+				<template class="text-center" id="tab2"><div><img src="img/2.jpg"/></div></template>
+				<template class="text-center" id="tab3"><div><img src="img/3.jpg"/></div></template>
+			</div>
+			<div>
+				<!-- 如果把切换出去的组件保留在内存中，可以保留它的状态或避免重新渲染。为此可以添加一个 keep-alive 指令参数 -->
+				<div :is="currentView" keep-alive></div>
+			</div>
+		</div>
+		
+	</body>
+	<script type="text/javascript">
+		var tab1=Vue.extend({
+			template:"#tab1",
+		});
+		var tab2=Vue.extend({
+			template:"#tab2",
+		});
+		var tab3=Vue.extend({
+			template:"#tab3",
+		});
+		new Vue({
+			el:".container",
+			data:{
+				one:{
+					width:"80%",
+					height:"auto",
+				},
+				two:{
+					height:"10rem",
+					lineHeight:"8rem",
+					fontSize:"5rem"
+				},
+				tab01:"tab1",
+				tab02:"tab2",
+				tab03:"tab3",
+				currentView:"tab1",
+			},
+			components:{
+				tab1:tab1,
+				tab2:tab2,
+				tab3:tab3,
+			},
+			methods:{
+				tab:function(tabImg){
+					this.currentView=tabImg;
+				}
+			}
+		})
+	</script>
+</html>
